@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Projektwoche1App: App {
+    @Environment(\.modelContext) var context
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BottomNav()
+                .modelContainer(for: Student.self)
         }
+       
     }
 }

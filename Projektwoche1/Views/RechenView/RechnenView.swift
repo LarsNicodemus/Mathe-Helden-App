@@ -6,42 +6,54 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct RechnenView: View {
-    @State private var selectedPrice: String = ""
-    @State private var enteredNumber: String = ""
+    @Environment(\.modelContext) private var context
+    @Query var classrooms: [Classroom]
+    @Query var students: [Student]
+    @Query var leaderBoards: [LeaderBoard]
+    @Query var teachers: [Teacher]
     @AppStorage("result") private var ergebnis: String = ""
-//    let gridItems = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
-    @State private var answer: String = ""
     @State private var showFeedback: Bool = false
-    @State var number1: Int = 1
-    @State var number2: Int = 3
-    
-    
+    @State private var userAnswer = ""
+    @State private var isCorrect: Bool? = nil
+    @State private var quizMaster: QuizManager = {
+            let qm = QuizManager()
+            let randomOperation: MathOperation = MathOperation.allCases.randomElement() ?? .addition
+        qm.generateQuestion(grade: 2,difficulty: .schwer, operation: randomOperation)
+            return qm
+        }()
+
     var body: some View {
+        
         VStack {
             
-            
-                    RechenHeaderView(
-                        selectedPrice: $selectedPrice,
-                        enteredNumber: $enteredNumber,
-                        answer: $answer,
-                        showFeedback: $showFeedback,
-                        number1: $number1,
-                        number2: $number2
-                    )
-                    
-                    
-                    RechenBottomView(showFeedback: $showFeedback)
-                        
-                        
-                }
-                .background(Color(.systemGray6))
-            }
+            RechenHeaderView(
+                showFeedback: $showFeedback,
+                userAnswer: $userAnswer,
+                isCorrect: $isCorrect,
+                quizMaster: quizMaster
+            )
+            RechenBottomView(
+                showFeedback: $showFeedback,
+                quizMaster: quizMaster,
+                userAnswer: $userAnswer,
+                isCorrect: $isCorrect
+            )
         }
+        
+    }
+}
+
 
 #Preview {
-    RechnenView()
+    VStack{
+        RechnenView()
+            .modelContainer(for: Classroom.self, inMemory: true)
+        Spacer().frame(height: 60)
+    }
 }
 
 

@@ -20,14 +20,13 @@ struct CardView: View {
                     .frame(width: 70, height: 70)
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {
-                    Text(
-                        "Hello, World!")
+                    Text("Cat Name 1")
                     Divider()
                         .overlay(Color.black)
                         .padding(.trailing)
                     
                     HStack {
-                        Label("1000 pts", systemImage: "pesetasign.circle.fill")
+                        Label("100 pts", systemImage: "pesetasign.circle.fill")
                     }
                 }
                 Spacer()
@@ -38,15 +37,14 @@ struct CardView: View {
                 .padding(4)
             }
             .padding()
-            .background(Color.gray.opacity(0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color(.systemGray6))
+            )
         }
-        .padding()
-        .background(Color(.systemBackground))
+        .background(Color.clear)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
-
     }
 }
 

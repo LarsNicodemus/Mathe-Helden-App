@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct LeaderBoardView: View {
-    @State private var selectedTab: LeaderBoard = .monthly
+    @State private var selectedTab: LeaderBoardText = .monthly
     var body: some View {
         
         NavigationStack{
@@ -22,7 +22,7 @@ struct LeaderBoardView: View {
                     .overlay {
                         VStack {
                             Picker("Selected Tab", selection: $selectedTab) {
-                                ForEach(LeaderBoard.allCases) { kiddoEntry in
+                                ForEach(LeaderBoardText.allCases) { kiddoEntry in
                                     Text(kiddoEntry.rawValue).tag(kiddoEntry)
                                     
                                 }
