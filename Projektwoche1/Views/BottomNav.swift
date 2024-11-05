@@ -12,10 +12,10 @@ struct BottomNav: View {
         TabView{
             
             Tab("Rechnen",systemImage: "plus.forwardslash.minus"){
-                
+                RechnenView()
             }
             Tab("Leaderboard",systemImage: "medal"){
-                
+                LeaderBoardView()
             }
             Tab("Stundenplan",systemImage: "calendar"){
                 
