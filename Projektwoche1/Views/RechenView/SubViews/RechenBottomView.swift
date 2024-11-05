@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RechenBottomView: View {
     @AppStorage("result") var ergebnis: String = ""
-//    let gridItems = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
     @Binding var showFeedback: Bool
     var body: some View {
         VStack{
@@ -23,7 +22,7 @@ struct RechenBottomView: View {
                                 
                             }) {
                                 Text("\(row * 3 + col)")
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 70, height: 50)
                                     .background(Color.blue)
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
@@ -47,7 +46,7 @@ struct RechenBottomView: View {
             
             
         }
-        .padding(.top, 16)
+        .padding(.vertical, 16)
         .frame(maxWidth: .infinity)
         .background(Color.brown.opacity(0.2))
         

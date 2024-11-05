@@ -24,6 +24,9 @@ struct BottomNav: View {
                 
             }
         }
+        .onAppear(){
+            UITabBar.appearance().backgroundColor = .white
+        }
     }
 }
 

@@ -18,19 +18,23 @@ struct RechenHeaderView: View {
     var correctAnswer: Int {
         number1 + number2
     }
+    
     var body: some View {
-        VStack{
+        VStack {
+           
             HStack {
-                    Text("0")
-                        .font(.headline)
-                    ProgressView(value: 0.3)
-                        .frame(width: 100)
-                    Image(systemName: "coin.fill")
-                        .foregroundColor(.yellow)
-                }
-                .padding()
+                Text("0")
+                    .font(.headline)
+                ProgressView(value: 0.3)
+                    .frame(width: 100)
+                Image(systemName: "coin.fill")
+                    .foregroundColor(.yellow)
+            }
+            .padding()
+            
             Spacer().frame(height: 30)
-            VStack{
+            
+            VStack(spacing: 20) {
                 HStack(spacing: 16) {
                     Text("\(number1)")
                         .font(.system(size: 48, weight: .bold))
@@ -42,11 +46,12 @@ struct RechenHeaderView: View {
                         .font(.system(size: 48, weight: .bold))
                         .foregroundColor(.purple)
                 }
+                
                 HStack(spacing: 8) {
                     Text("=")
                         .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.orange)
-                    Text(ergebnis != "" ? "\(ergebnis)" : "?")
+                    Text(ergebnis.isEmpty ? "?" : ergebnis)
                         .font(.system(size: 36, weight: .bold))
                         .frame(width: 100, height: 50)
                         .background(RoundedRectangle(cornerRadius: 10).stroke(Color.green, lineWidth: 2))
@@ -54,37 +59,33 @@ struct RechenHeaderView: View {
                         .foregroundColor(.green)
                 }
             }
-            .frame(width: 330, height: 300)
-            .background(RoundedRectangle(cornerRadius: 20).fill(Color.brown.opacity(0.2))
-            )
+            .padding()
+            .frame(width: 330, height: 240)
+            .background(RoundedRectangle(cornerRadius: 20).fill(Color.brown.opacity(0.2)))
+            
             if showFeedback {
-                if Int(ergebnis) == correctAnswer {
-                    Text("🎉 Richtig! Super gemacht! 🎉")
-                        .font(.title2)
-                        .foregroundColor(.green)
-                        .padding()
-                } else {
-                    Text("❌ Oops! Versuch es nochmal! ❌")
-                        .font(.title2)
-                        .foregroundColor(.red)
-                        .padding()
-                }
-                
+                Text(Int(ergebnis) == correctAnswer ? "🎉 Richtig! Super gemacht! 🎉" : "❌ Oops! Versuch es nochmal! ❌")
+                    .font(.title2)
+                    .foregroundColor(Int(ergebnis) == correctAnswer ? .green : .red)
+                    .padding()
             }
+            
             Spacer()
-            
-            
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity)
         .background(
             Image("kidsplaying")
                 .resizable()
-                .ignoresSafeArea()
             
+                .ignoresSafeArea(edges: .top)
         )
     }
 }
 
 #Preview {
-    RechenHeaderView(selectedPrice: .constant("2"), enteredNumber: .constant("4"), answer: .constant("4"), showFeedback: .constant(true), number1: .constant(1), number2: .constant(3))
+
+        RechenHeaderView(selectedPrice: .constant("2"), enteredNumber: .constant("4"), answer: .constant("4"), showFeedback: .constant(true), number1: .constant(1), number2: .constant(3))
+        
+    
+    
 }
