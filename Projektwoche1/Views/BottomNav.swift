@@ -41,6 +41,7 @@ struct BottomNav: View {
         } else {
             LoginScreenView(loggedIn: $loggedIn)
         }
+        
     }
     
 }

@@ -108,7 +108,7 @@ struct RechenBottomView: View {
                             .bold()
                           .tint(.white)
                       }
-                }          
+                }
         }
         .padding(.vertical, 16)
         .frame(maxWidth: .infinity)
