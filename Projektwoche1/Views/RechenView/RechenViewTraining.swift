@@ -21,6 +21,8 @@ struct RechnenViewTraining: View {
     @State private var userAnswer = ""
     @State private var isCorrect: Bool? = nil
     @State private var quizMaster: QuizManager = QuizManager()
+    @Binding var difficulty: DifficultyLevel
+    @Binding var operation: MathOperation
     var studentPoints: Int {
             if let studentUUID = student?.id {
                 return points.first(where: { $0.studentUUID == studentUUID })?.points ?? 0
@@ -41,41 +43,34 @@ struct RechnenViewTraining: View {
             }
         }
     
-    init(student: Binding<Student?>) {
-            _student = student
-               
-        let randomOperation: MathOperation = MathOperation.allCases.randomElement() ?? .addition
-                quizMaster.generateQuestion(
-                    grade: student.wrappedValue?.classroom?.grade ?? 2,
-                    difficulty: difficultyLevel,
-                    operation: randomOperation
-                )
-            }
     
     var body: some View {
 
         VStack {
             
-            RechenHeaderView(
+            RechenHeaderViewTraining(
                 showFeedback: $showFeedback,
                 userAnswer: $userAnswer,
                 isCorrect: $isCorrect,
                 quizMaster: quizMaster,
-                student: $student,
-                diffycultyLevel: difficultyLevel,
-                studentPoints: studentPoints,
-                easy: easy,
-                medium: medium,
-                hard: hard
+                student: $student
             )
-            RechenBottomView(
+            RechenBottomViewTraining(
                 showFeedback: $showFeedback,
                 quizMaster: quizMaster,
                 userAnswer: $userAnswer,
                 isCorrect: $isCorrect,
                 student: $student,
-                diffycultyLevel: difficultyLevel
+                difficulty: $difficulty,
+                operation: $operation
             )
+        }
+        .onAppear{
+            quizMaster.generateQuestion(
+                            grade: student?.classroom?.grade ?? 2,
+                            difficulty: difficulty,
+                            operation: operation
+                        )
         }
       }
 
@@ -87,7 +82,7 @@ struct RechnenViewTraining: View {
             student: .constant(
                 Student(
                     username: "Student1", password: "password123",
-                    name: "Test 1"))
+                    name: "Test 1")), difficulty: .constant(.leicht), operation: .constant(.addition)
         )
         .modelContainer(for: Classroom.self, inMemory: true)
         Spacer().frame(height: 60)

@@ -13,9 +13,11 @@ class StoredQuizzes {
     var studentUUID: UUID
     var correctAnsweredQuestions: [String]
     var falseAnsweredQuestions: [String]
-    init(studentUUID: UUID, correctAnsweredQuestions: [String], falseAnsweredQuestions: [String]) {
+    var bonusQuestions: [String]
+    init(studentUUID: UUID, correctAnsweredQuestions: [String] = [], falseAnsweredQuestions: [String] = [], bonusQuestions: [String] = []) {
         self.studentUUID = studentUUID
         self.correctAnsweredQuestions = correctAnsweredQuestions
         self.falseAnsweredQuestions = falseAnsweredQuestions
+        self.bonusQuestions = bonusQuestions
     }
 }

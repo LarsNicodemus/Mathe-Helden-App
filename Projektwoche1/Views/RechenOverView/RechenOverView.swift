@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RechenOverView: View {
     @Binding var student: Student?
+    @State var difficulty: DifficultyLevel = .leicht
+    @State var operation: MathOperation = .addition
     var body: some View {
         NavigationStack {
             VStack{
@@ -21,14 +23,14 @@ struct RechenOverView: View {
                         NavCardLeftView()
                             
                     }
-                    NavigationLink(destination: RechnenView(student: $student).navigationBarBackButtonHidden(true)) {
+                    NavigationLink(destination: RechnenViewBonus(student: $student).navigationBarBackButtonHidden(true)) {
                         NavCardRightView()
                         }
                     
                     
                 }
                 .padding(5)
-                PickerView(student: $student)
+                PickerView(difficulty: $difficulty, operation: $operation, student: $student)
                 PlacePointsView()
                 Spacer()
                 

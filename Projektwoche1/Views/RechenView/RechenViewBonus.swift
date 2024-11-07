@@ -15,6 +15,7 @@ struct RechnenViewBonus: View {
     @Query var leaderBoards: [LeaderBoard]
     @Query var teachers: [Teacher]
     @Query var points: [Points]
+    @Query var storedQuizzes: [StoredQuizzes]
     @Binding var student: Student?
     @AppStorage("result") private var ergebnis: String = ""
     @State private var showFeedback: Bool = false
@@ -56,7 +57,7 @@ struct RechnenViewBonus: View {
 
         VStack {
             
-            RechenHeaderView(
+            RechenHeaderViewBonus(
                 showFeedback: $showFeedback,
                 userAnswer: $userAnswer,
                 isCorrect: $isCorrect,
@@ -68,13 +69,12 @@ struct RechnenViewBonus: View {
                 medium: medium,
                 hard: hard
             )
-            RechenBottomView(
+            RechenBottomViewBonus(
                 showFeedback: $showFeedback,
                 quizMaster: quizMaster,
                 userAnswer: $userAnswer,
                 isCorrect: $isCorrect,
-                student: $student,
-                diffycultyLevel: difficultyLevel
+                student: $student
             )
         }
       }
@@ -89,7 +89,7 @@ struct RechnenViewBonus: View {
                     username: "Student1", password: "password123",
                     name: "Test 1"))
         )
-        .modelContainer(for: Classroom.self, inMemory: true)
+        .modelContainer(for: [Classroom.self, StoredQuizzes.self], inMemory: true)
         Spacer().frame(height: 60)
     }
 }

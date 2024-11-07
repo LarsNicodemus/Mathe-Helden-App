@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct PickerView: View {
-    @State private var selectedDifficulty: Difficulty = .easy
-      @State private var selectedOperation: Operation = .addition
+
+    @Binding var difficulty: DifficultyLevel
+      @Binding var operation: MathOperation
       @State private var navigateToQuiz = false
     @Binding var student: Student?
     var body: some View {
@@ -26,23 +27,23 @@ struct PickerView: View {
                                     .bold()
                                     .italic()
                                  Text("Wählen deinen Schwierigkeitsgrad")
-                                 Picker("Schwierigkeitsgrad", selection: $selectedDifficulty) {
-                                   Text("Leicht").tag(Difficulty.easy)
-                                   Text("Mittel").tag(Difficulty.medium)
-                                   Text("Schwer").tag(Difficulty.hard)
+                                Picker("Schwierigkeitsgrad", selection: $difficulty) {
+                                     Text("Leicht").tag(DifficultyLevel.leicht)
+                                     Text("Mittel").tag(DifficultyLevel.mittel)
+                                     Text("Schwer").tag(DifficultyLevel.schwer)
                                  }
                                  .pickerStyle(SegmentedPickerStyle())
                                  Text("Wähle die Rechenoperation")
-                                 Picker("Operation", selection: $selectedOperation) {
+                                Picker("Operation", selection: $operation) {
                                    Image(systemName: "plus.circle")
-                                    .tag(Operation.addition)
-                                     Image(systemName: "minus.circle").tag(Operation.subtraction)
-                                     Image(systemName: "multiply.circle").tag(Operation.multiplication)
-                                     Image(systemName: "divide.circle").tag(Operation.division)
+                                    .tag(MathOperation.addition)
+                                    Image(systemName: "minus.circle").tag(MathOperation.subtraktion)
+                                    Image(systemName: "multiply.circle").tag(MathOperation.multiplikation)
+                                     Image(systemName: "divide.circle").tag(MathOperation.division)
                                  }
                                  .pickerStyle(SegmentedPickerStyle())
                                 
-                                NavigationLink(destination: RechnenView(student: $student).navigationBarBackButtonHidden(true)){
+                                NavigationLink(destination: RechnenViewTraining(student: $student, difficulty: $difficulty,operation: $operation).navigationBarBackButtonHidden(true)){
                                     Text("Zum Quiz")
                                 }
                                     .buttonStyle(PlainButtonStyle())
@@ -63,8 +64,9 @@ struct PickerView: View {
 }
 
 #Preview {
-    PickerView(student: .constant(
-        Student(
+    PickerView(difficulty: .constant(
+        .leicht), operation: .constant(.addition), student: .constant(Student(
             username: "Student1", password: "password123",
             name: "Test 1")))
 }
+
