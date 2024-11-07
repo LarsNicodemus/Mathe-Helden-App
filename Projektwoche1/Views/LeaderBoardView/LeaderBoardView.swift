@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 
 struct LeaderBoardView: View {
+    @Environment(\.modelContext) private var context
+    @Query var classrooms: [Classroom]
+    @Query var students: [Student]
+    @Query var leaderBoards: [LeaderBoard]
+    @Query var teachers: [Teacher]
+    @Query var points: [Points]
+    @Binding var student: Student?
     @State private var selectedTab: LeaderBoardText = .monthly
     var body: some View {
         
@@ -60,5 +67,6 @@ struct LeaderBoardView: View {
 }
 
 #Preview {
-    LeaderBoardView()
+    LeaderBoardView(student: .constant(Student(username: "Student1", password: "password123", name: "Test 1")))
+        .modelContainer(for: Classroom.self, inMemory: true)
 }

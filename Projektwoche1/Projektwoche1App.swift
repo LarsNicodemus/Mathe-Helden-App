@@ -13,7 +13,7 @@ struct Projektwoche1App: App {
     var body: some Scene {
         WindowGroup {
             BottomNav()
-                .modelContainer(for: Student.self)
+                .modelContainer(for: Classroom.self)
         }
        
     }

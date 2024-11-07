@@ -13,8 +13,14 @@ struct LoginScreenView: View {
     @State private var password: String = ""
     @State private var loginFailed: Bool = false
     @Binding var loggedIn: Bool
+    @Binding var student: Student?
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Query var students: [Student]
+    @Query var classrooms: [Classroom]
+    @Query var leaderBoards: [LeaderBoard]
+    @Query var teachers: [Teacher]
+    @Query var points: [Points]
+    @Query var storedQuizzes: [StoredQuizzes]
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -85,10 +91,11 @@ struct LoginScreenView: View {
     }
 
     private func handleLogin() {
-        if let student = students.first(where: {
+        if let actualStudent = students.first(where: {
             $0.username == username && $0.password == password
         }) {
-            print("Login successful for student: \(student.username)")
+            print("Login successful for student: \(actualStudent.username)")
+            student = actualStudent
             loginFailed = false
             loggedIn = true
         } else {
@@ -96,12 +103,19 @@ struct LoginScreenView: View {
         }
     }
     private func addTestStudents() {
-        let testStudent1 = Student(username: "Student1", password: "password123",name: "Test 1")
-        let testStudent2 = Student(username: "Student2", password: "password456",name: "Test 2")
-        
+        let classRoom = Classroom(name: "TESTCLASSROOM", grade: 1)
+        modelContext.insert(classRoom)
+        let testStudent1 = Student(username: "S", password: "1",name: "Test 1", classroom: classrooms[0])
         modelContext.insert(testStudent1)
+        let testStudent2 = Student(username: "Student2", password: "password456",name: "Test 2", classroom: classrooms[0])
         modelContext.insert(testStudent2)
-        
+        let leaderBoard = LeaderBoard(name: "TESTLEADERBOARD")
+        modelContext.insert(leaderBoard)
+        leaderBoard.classroom = classrooms[0]
+        let points = Points(studentUUID: testStudent1.id, leaderBoard: leaderBoards[0])
+        modelContext.insert(points)
+        let quizzes = StoredQuizzes(studentUUID: testStudent1.id, correctAnsweredQuestions: [], falseAnsweredQuestions: [])
+        modelContext.insert(quizzes)
         do {
             try modelContext.save()
             print("Test students added")
@@ -113,6 +127,6 @@ struct LoginScreenView: View {
 }
 
 #Preview {
-    LoginScreenView(loggedIn: .constant(true))
-        .modelContainer(for: [Student.self], inMemory: true)
+    LoginScreenView(loggedIn: .constant(true), student: .constant(Student(username: "Student1", password: "password123", name: "Test 1")))
+        .modelContainer(for: [Student.self, StoredQuizzes.self], inMemory: true)
 }

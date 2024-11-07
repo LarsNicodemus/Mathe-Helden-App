@@ -84,7 +84,11 @@ class QuizManager {
                 operand1 = Int.random(in: multiplicationRange)
                 operand2 = Int.random(in: multiplicationRange)
 
-            } else if self.operation == .division {
+            } else if self.operation == .addition && grade == 1 && difficulty == .leicht {
+                operand1 = Int.random(in: 1...10)
+                operand2 = Int.random(in: 1...10 - operand1)
+            }
+            else if self.operation == .division {
                 let divisionRange =
                     grade == 2
                     ? 1...5

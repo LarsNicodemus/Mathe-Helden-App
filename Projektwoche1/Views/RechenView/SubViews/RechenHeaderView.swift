@@ -6,24 +6,62 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RechenHeaderView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
     @AppStorage("result") var ergebnis: String = ""
     @Binding var showFeedback: Bool
     @Binding var userAnswer: String
     @Binding var isCorrect: Bool?
     var quizMaster: QuizManager
+    @Query var classrooms: [Classroom]
+    @Query var students: [Student]
+    @Query var leaderBoards: [LeaderBoard]
+    @Query var teachers: [Teacher]
+    @Query var points: [Points]
+    @Binding var student: Student?
+    var diffycultyLevel: DifficultyLevel
+    var studentPoints: Int
+    var easy: Int
+    var medium: Int
+    var hard: Int
+    @State private var progress = 0.0
+    @State private var minVolume = 0.0
+    @State private var maxVolume = 100.0
 
     var body: some View {
         VStack {
+            
             HStack {
-                Text("0")
-                    .font(.headline)
-                ProgressView(value: 0.3)
-                    .frame(width: 100)
-                Image(systemName: "coin.fill")
+                Button(action:{
+                dismiss()
+              }){
+                Image(systemName:"arrow.left")
+                  .foregroundColor(.black)
+                  .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                      .fill(Color.black.opacity(0.1))
+                      .padding(-12)
+                  )
+              }
+              .padding(.trailing, 16)
+                Image(systemName: "pesetasign")
                     .foregroundColor(.yellow)
+                Gauge(value: progress, in: minVolume...maxVolume) {
+                } currentValueLabel: {
+                    
+                } minimumValueLabel: {
+                    Text("\(Int(minVolume))")
+                        .bold()
+                        .foregroundColor(.yellow)
+                } maximumValueLabel: {
+                    Text("\(Int(maxVolume))")
+                }
+                
             }
+            .frame(width: 320)
             .padding()
             
             
@@ -63,6 +101,7 @@ struct RechenHeaderView: View {
                     .padding()
             }
             
+            
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -71,12 +110,37 @@ struct RechenHeaderView: View {
                 .resizable()
                 .ignoresSafeArea(edges: .top)
         )
+        .onAppear {
+            updateMinMaxVolume()
+        }
+        .onChange(of: studentPoints) { old, new in
+            updateMinMaxVolume()
+        }
     }
+    private func updateMinMaxVolume() {
+            switch diffycultyLevel {
+            case .leicht:
+                minVolume = 0
+                maxVolume = Double(easy)
+            case .mittel:
+                minVolume = Double(easy)
+                maxVolume = Double(medium)
+            case .schwer:
+                minVolume = Double(medium)
+                maxVolume = Double(hard)
+            }
+
+        progress = Double(studentPoints)
+        }
 }
 
 #Preview {
 
-    RechenHeaderView(showFeedback: .constant(true), userAnswer: .constant(""), isCorrect: .constant(true), quizMaster: QuizManager())
+    RechenHeaderView(showFeedback: .constant(true), userAnswer: .constant(""), isCorrect: .constant(true), quizMaster: QuizManager(),
+                     student: .constant(
+                         Student(
+                             username: "Student1", password: "password123",
+                             name: "Test 1")), diffycultyLevel: .leicht, studentPoints: 80, easy: 30, medium: 100, hard: 999)
         
     
     

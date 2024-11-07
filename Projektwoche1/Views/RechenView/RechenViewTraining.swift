@@ -1,14 +1,14 @@
 //
-//  RechnenView.swift
+//  RechenViewTraining.swift
 //  Projektwoche1
 //
-//  Created by Lars Nicodemus on 05.11.24.
+//  Created by Lars Nicodemus on 07.11.24.
 //
 
 import SwiftData
 import SwiftUI
 
-struct RechnenView: View {
+struct RechnenViewTraining: View {
     @Environment(\.dismiss) private var dismiss
     @Query var classrooms: [Classroom]
     @Query var students: [Student]
@@ -83,7 +83,7 @@ struct RechnenView: View {
 
 #Preview {
     VStack {
-        RechnenView(
+        RechnenViewTraining(
             student: .constant(
                 Student(
                     username: "Student1", password: "password123",
