@@ -123,9 +123,7 @@ struct RechenBottomView: View {
                     }
                 }
                 if isCorrect == true {
-                    //                    if let storedQuiz = storedQuizzes.first(where: {$0.studentUUID == student?.id}){
-                    //                        storedQuiz.correctAnsweredQuestions.append(questionAnswer)
-                    //                    }
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         userAnswer = ""
                         showFeedback = false
@@ -143,33 +141,14 @@ struct RechenBottomView: View {
                         points in
                         points.studentUUID == studentUUID
                     }) {
-                        //                        if let storedQuiz = storedQuizzes.first(where: {
-                        //                            $0.studentUUID == studentUUID
-                        //                        }) {
-                        //                            storedQuiz.correctAnsweredQuestions.append(
-                        //                                questionAnswer)
-                        //                            for quiz in storedQuiz.correctAnsweredQuestions {
-                        //                                print(quiz)
-                        //                            }
-                        //                        }
-                        studentPoints.points += 10
+
+                        studentPoints.points += 5
                         try? context.save()
                         print("aktuelle Punkte \(studentPoints.points)")
                         print("aktuelles Level \(diffycultyLevel)")
                     }
                 }
-                //                if let storedQuiz = storedQuizzes.first(where: { $0.studentUUID == student?.id }) {
-                //                    if !storedQuiz.correctAnsweredQuestions.isEmpty{
-                //                        for quiz in storedQuiz.correctAnsweredQuestions {
-                //                            print(quiz)
-                //                        }
-                //                    }
-                //                    if !storedQuiz.falseAnsweredQuestions.isEmpty{
-                //                        for quiz in storedQuiz.falseAnsweredQuestions {
-                //                            print(quiz)
-                //                        }
-                //                    }
-                //                }
+                
             }) {
                 ZStack {
                     Rectangle()

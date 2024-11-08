@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct RechenBottomViewBonus: View {
-    @Environment(\.modelContext) private var context
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var showFeedback: Bool
     var quizMaster: QuizManager
     @Binding var userAnswer: String
@@ -146,7 +146,7 @@ struct RechenBottomViewBonus: View {
                             points.studentUUID == studentUUID
                         }) {
                             studentPoints.points += 10
-                            try? context.save()
+                            try? modelContext.save()
                             print("aktuelle Punkte \(studentPoints.points)")
                             
                         }

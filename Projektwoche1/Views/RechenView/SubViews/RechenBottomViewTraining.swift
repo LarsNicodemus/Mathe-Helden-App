@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct RechenBottomViewTraining: View {
-    @Environment(\.modelContext) private var context
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var showFeedback: Bool
     var quizMaster: QuizManager
     @Binding var userAnswer: String
@@ -23,12 +23,7 @@ struct RechenBottomViewTraining: View {
     @Binding var difficulty: DifficultyLevel
     @Binding var operation: MathOperation
     @State var isClickable: Bool = true
-    var storedQuizzesCount: Int {
-            if let studentUUID = student?.id {
-                return storedQuizzes.first(where: { $0.studentUUID == studentUUID })?.bonusQuestions.count ?? 0
-            }
-            return 0
-        }
+    
     var body: some View {
         VStack {
 

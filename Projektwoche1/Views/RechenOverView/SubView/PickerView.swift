@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PickerView: View {
-
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var difficulty: DifficultyLevel
       @Binding var operation: MathOperation
       @State private var navigateToQuiz = false

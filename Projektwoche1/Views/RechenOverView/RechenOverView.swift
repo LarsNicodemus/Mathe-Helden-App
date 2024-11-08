@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RechenOverView: View {
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var student: Student?
     @State var difficulty: DifficultyLevel = .leicht
     @State var operation: MathOperation = .addition
@@ -31,7 +33,7 @@ struct RechenOverView: View {
                 }
                 .padding(5)
                 PickerView(difficulty: $difficulty, operation: $operation, student: $student)
-                PlacePointsView()
+                PlacePointsView(student: $student)
                 Spacer()
                 
             }

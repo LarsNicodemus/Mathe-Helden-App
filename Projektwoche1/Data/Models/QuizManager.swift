@@ -86,7 +86,16 @@ class QuizManager {
 
             } else if self.operation == .addition && grade == 1 && difficulty == .leicht {
                 operand1 = Int.random(in: 1...10)
-                operand2 = Int.random(in: 1...10 - operand1)
+                
+                // Den maximalen Wert für operand2 so berechnen, dass operand1 + operand2 <= 10 bleibt
+                let maxOperand2 = 10 - operand1
+                
+                // Prüfen, ob der Bereich für operand2 gültig ist
+                if maxOperand2 >= 1 {
+                    operand2 = Int.random(in: 1...maxOperand2)
+                } else {
+                    operand2 = 0  // Fallback-Wert, wenn operand1 bereits 10 ist
+                }
             }
             else if self.operation == .division {
                 let divisionRange =

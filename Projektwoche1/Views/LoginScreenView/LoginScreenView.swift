@@ -114,6 +114,8 @@ struct LoginScreenView: View {
         leaderBoard.classroom = classrooms[0]
         let points = Points(studentUUID: testStudent1.id, leaderBoard: leaderBoards[0])
         modelContext.insert(points)
+        let points2 = Points(studentUUID: testStudent2.id,points: 50, leaderBoard: leaderBoards[0])
+        modelContext.insert(points2)
         let quizzes = StoredQuizzes(studentUUID: testStudent1.id)
         modelContext.insert(quizzes)
         do {

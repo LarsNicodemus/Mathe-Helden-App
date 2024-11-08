@@ -10,24 +10,16 @@ import SwiftData
 
 struct RechenHeaderViewBonus: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var context
-    @AppStorage("result") var ergebnis: String = ""
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var showFeedback: Bool
     @Binding var userAnswer: String
     @Binding var isCorrect: Bool?
     var quizMaster: QuizManager
     @Query var classrooms: [Classroom]
     @Query var students: [Student]
-    @Query var leaderBoards: [LeaderBoard]
-    @Query var teachers: [Teacher]
-    @Query var points: [Points]
     @Query var storedQuizzes: [StoredQuizzes]
     @Binding var student: Student?
-    var diffycultyLevel: DifficultyLevel
     var studentPoints: Int
-    var easy: Int
-    var medium: Int
-    var hard: Int
     @State private var progress = 0.0
     @State private var minVolume = 0.0
     @State private var maxVolume = 10.0
@@ -55,13 +47,14 @@ struct RechenHeaderViewBonus: View {
               .padding(.trailing, 16)
                 Image(systemName: "pesetasign")
                     .foregroundColor(.yellow)
+                Text("\(Int(minVolume))")
+                    .bold()
+                    .foregroundColor(.yellow)
                 Gauge(value: progress, in: minVolume...maxVolume) {
                 } currentValueLabel: {
-                    
                 } minimumValueLabel: {
                     Text("\(Int(minVolume))")
                         .bold()
-                        .foregroundColor(.yellow)
                 } maximumValueLabel: {
                     Text("\(Int(maxVolume))")
                 }
@@ -125,7 +118,7 @@ struct RechenHeaderViewBonus: View {
         .onAppear {
             updateMinMaxVolume()
         }
-        .onChange(of: studentPoints) {
+        .onChange(of: storedQuizzesCount) {
             updateMinMaxVolume()
         }
         .onChange(of: storedQuizzesCount){
@@ -155,7 +148,7 @@ struct RechenHeaderViewBonus: View {
                      student: .constant(
                          Student(
                              username: "Student1", password: "password123",
-                             name: "Test 1")), diffycultyLevel: .leicht, studentPoints: 80, easy: 30, medium: 100, hard: 999)
+                             name: "Test 1")), studentPoints: 80)
         
     
     

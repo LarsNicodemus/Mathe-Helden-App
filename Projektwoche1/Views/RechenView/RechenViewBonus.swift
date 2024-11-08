@@ -10,14 +10,13 @@ import SwiftUI
 
 struct RechnenViewBonus: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Query var classrooms: [Classroom]
     @Query var students: [Student]
     @Query var leaderBoards: [LeaderBoard]
-    @Query var teachers: [Teacher]
     @Query var points: [Points]
     @Query var storedQuizzes: [StoredQuizzes]
     @Binding var student: Student?
-    @AppStorage("result") private var ergebnis: String = ""
     @State private var showFeedback: Bool = false
     @State private var userAnswer = ""
     @State private var isCorrect: Bool? = nil
@@ -28,19 +27,6 @@ struct RechnenViewBonus: View {
             }
             return 0
         }
-    var easy: Int = 30
-    var medium: Int = 100
-    var hard: Int = 999
-    var difficultyLevel: DifficultyLevel {
-            switch studentPoints {
-            case ..<30:
-                return .leicht
-            case 30...100:
-                return .mittel
-            default:
-                return .schwer
-            }
-        }
     
     init(student: Binding<Student?>) {
             _student = student
@@ -48,7 +34,7 @@ struct RechnenViewBonus: View {
         let randomOperation: MathOperation = MathOperation.allCases.randomElement() ?? .addition
                 quizMaster.generateQuestion(
                     grade: student.wrappedValue?.classroom?.grade ?? 2,
-                    difficulty: difficultyLevel,
+                    difficulty: .schwer,
                     operation: randomOperation
                 )
             }
@@ -63,11 +49,7 @@ struct RechnenViewBonus: View {
                 isCorrect: $isCorrect,
                 quizMaster: quizMaster,
                 student: $student,
-                diffycultyLevel: difficultyLevel,
-                studentPoints: studentPoints,
-                easy: easy,
-                medium: medium,
-                hard: hard
+                studentPoints: studentPoints
             )
             RechenBottomViewBonus(
                 showFeedback: $showFeedback,

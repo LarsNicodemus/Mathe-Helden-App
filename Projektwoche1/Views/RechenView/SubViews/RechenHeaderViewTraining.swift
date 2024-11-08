@@ -10,7 +10,7 @@ import SwiftData
 
 struct RechenHeaderViewTraining: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var context
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var showFeedback: Bool
     @Binding var userAnswer: String
     @Binding var isCorrect: Bool?

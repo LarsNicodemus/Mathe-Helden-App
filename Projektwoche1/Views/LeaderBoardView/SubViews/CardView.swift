@@ -6,11 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CardView: View {
+    @Environment(\.modelContext) private var modelContext: ModelContext
+    @Query var classrooms: [Classroom]
+    @Query var students: [Student]
+    @Query var leaderBoards: [LeaderBoard]
+    @Query var teachers: [Teacher]
+    @Query var points: [Points]
+    var placement: Int
+    var studentName: String
+    var studentPoints: Int
+    
     var body: some View {
+        
         HStack {
-            Text("01")
+            Text("\(placement)")
                 .font(.largeTitle)
                 .bold()
             Spacer()
@@ -20,13 +32,13 @@ struct CardView: View {
                     .frame(width: 70, height: 70)
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {
-                    Text("Cat Name 1")
+                    Text(studentName)
                     Divider()
                         .overlay(Color.black)
-                        .padding(.trailing)
+                        .padding(.trailing, 50)
                     
                     HStack {
-                        Label("100 pts", systemImage: "pesetasign.circle.fill")
+                        Label("(\(studentPoints)) pts", systemImage: "pesetasign.circle.fill")
                     }
                 }
                 Spacer()
@@ -49,5 +61,5 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView()
+    CardView(placement: 1, studentName: "Cat Name 1", studentPoints: 100)
 }
